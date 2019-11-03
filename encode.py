@@ -1,0 +1,1 @@
+# To encode a .txt file
