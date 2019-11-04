@@ -29,7 +29,6 @@ def get_frequency(txt_file, asciiDict):
     for line in txt_file:
         for char in line:
             asciiDict[char] += 1
-    asciiDict = {x:y for x,y in asciiDict.items() if y!=0}
     sorted_ascii = sorted(asciiDict.items(), key=lambda kv: kv[1], reverse=True)
     asciiDict = collections.OrderedDict(sorted_ascii)
     return asciiDict
