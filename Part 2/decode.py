@@ -1,28 +1,35 @@
 import code_builder
+import os
 
 #  Function to read in the file the user wants to decode (file name is user input from the cmd line)
-def get_encoded_file():
-    print("please type the full name of the file you want to decode. ex. test.txt")
-    txt_file_name = input() 
-    txt_file = open(txt_file_name, "r")
-    return [txt_file.read(), txt_file_name]
+def get_encoded_file(num_collection):
+    encoded_files_path = ".\\Collection " + num_collection + "\\Encoded"
+    encoded_files = []
+    for filename in os.listdir(encoded_files_path):
+        file_path = encoded_files_path + "\\" + filename
+        encoded_files.append({'txt': open(file_path, "r"), 'name': filename})
+    return encoded_files
 
 #  Function used to decode the desired file and write the decoded file to a new .txt file
-def decode_file(encoded_file_name, encoded_file, code):
-    decoded_file_name = encoded_file_name.replace("_encoded.txt", "_decoded.txt") 
-    decoded_file = open(decoded_file_name, "a")
-    num_code = ""
-    for num in encoded_file:
-        num_code += num
-        if num_code in code.keys():
-            decoded_file.write(code[num_code])
-            num_code = ""
+def decode_file(encoded_files, code, num_collection):
+    file_path = ".\\Collection " + num_collection + "\\Decoded"
+    print("the following files are decoded and saved in " + file_path)
+    decoded_files_path = ".\\Collection " + num_collection + "\\Decoded" 
+    for encoded_file in encoded_files:
+        decoded_file_name = encoded_file['name'].replace("_encoded.txt", "_decoded.txt")
+        decoded_file = open(decoded_files_path + "\\" + decoded_file_name, "a")
+        huff_code = ""
+        for line in encoded_file['txt']:
+            for num in line:
+                huff_code += num
+                if huff_code in code.keys():
+                    decoded_file.write(code[huff_code])
+                    huff_code = ""
+        print(decoded_file_name)
+    print("\n")
 
 # Main function to run the decoding module 
-def main():
-    code = code_builder.get_coding(True)
-    encoded_file, encoded_file_name = get_encoded_file()
-    decode_file(encoded_file_name, encoded_file, code)
-
-if __name__== "__main__":
-  main()
+def main(num_collection):
+    code = code_builder.get_coding(True, num_collection)
+    encoded_files = get_encoded_file(num_collection)
+    decode_file(encoded_files, code, num_collection)

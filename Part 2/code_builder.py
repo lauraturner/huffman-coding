@@ -1,12 +1,13 @@
 import collections
 from collections import OrderedDict
+import os
 
 # function to be used by encoding and decoding modules to get a dict of the Huffman Code.
 # The decode flag is used to switch the bit code to be the dict keys and the characters to be the 
 # values for decoding 
-def get_coding(decode):
-    code_file_name = "code.txt"
-    txt_file = open(code_file_name, "r")
+def get_coding(decode, num_collection):
+    code_file_path = ".\\Collection " + num_collection + "\\code.txt"
+    txt_file = open(code_file_path, "r")
     code = {}
     for line in txt_file:
         line = line.split('\t')
@@ -19,8 +20,8 @@ def get_coding(decode):
     return code
 
 # Function to format and write the generated Huffman Coding key to a txt file called code.txt
-def write_code_file(code):
-    code_file_name = "code.txt"
+def write_code_file(code, path):
+    code_file_name = path + "\code.txt"
     with open(code_file_name, 'w') as the_file:
         for ltr in code.keys():
             ltr_code = code[ltr][ : : -1]
@@ -49,27 +50,29 @@ def make_code(ltr_code, ltr_groups):
     return make_code(ltr_code, ltr_groups)
 
 # Function to read characters from a file and calclate their frequency in a dict
-def get_frequency(txt_file, asciiDict):
-    for line in txt_file:
-        for char in line:
-            asciiDict[char] += 1
+def get_frequency(txt_files, asciiDict):
+    for txt_file in txt_files:
+        for line in txt_file:
+            for char in line:
+                asciiDict[char] += 1
     sorted_ascii = sorted(asciiDict.items(), key=lambda kv: kv[1], reverse=True)
     asciiDict = collections.OrderedDict(sorted_ascii)
     return asciiDict
 
 # Main function to get the Huffman Coding
-def main():
+def main(num_collec):
+    path = ".\\Collection " + num_collec + "\\"
+    collection_path = path + "Canonical Collection " + num_collec + " 20191031"
     # Create a dict of ASCII characters and add in the LF character
     asciiDict = {chr(i): 0 for i in range(32, 127)}
     asciiDict['\n'] = 0
-    txt_file = open("File1ASCII.txt", "r")
-    ltr_frequency = get_frequency(txt_file, asciiDict)
+    files = []
+    for filename in os.listdir(collection_path):
+        file_path = collection_path + "\\" + filename
+        files.append(open(file_path, "r"))
+    ltr_frequency = get_frequency(files, asciiDict)
     # make new dict to hole the bit code for each character
     ltr_code = {x: [] for x in ltr_frequency.keys()}
     code = make_code(ltr_code, ltr_frequency)
-    code_file_name = write_code_file(code)
-    return code_file_name
-
-
-if __name__== "__main__":
-  main()
+    code_file_name = write_code_file(code, path)
+    

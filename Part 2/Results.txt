@@ -1,0 +1,79 @@
+Results of Part 2: (everything is measured in bytes)
+
+
+Original file sizes:
+        EarthASCII:     438 284
+        MysteryASCII:   444 611
+        MythsASCII:     740 678
+        SimakASCII:     310 126
+        WodehouseASCII: 403 294
+
+
+Collection 1 
+    Compressed:
+        EarthASCII:     416 750
+        MysteryASCII:   450 000
+        MythsASCII:     851 625
+        SimakASCII:     303 624
+        WodehouseASCII: 396 750
+
+    % of original size:
+        EarthASCII:     95 % 
+        MysteryASCII:   101 %
+        MythsASCII:     115 %
+        SimakASCII:     98 %
+        WodehouseASCII: 98 %
+
+    TOTAL % of origional size: 103 %
+
+
+Collection 2
+
+    CoCompressedmpresed:
+        EarthASCII:     248 375
+        MysteryASCII:   256 625
+        MythsASCII:     471 250
+        SimakASCII:     177 125
+        WodehouseASCII: 228 375
+
+    % of original size:
+        EarthASCII:     57 %    
+        MysteryASCII:   58 %
+        MythsASCII:     64 5
+        SimakASCII:     57 %
+        WodehouseASCII: 57 %
+
+    TOTAL % of origional size: 59 %
+
+
+Collection 3
+   
+    Compressed:
+        EarthASCII:     245 750
+        MysteryASCII:   253 125
+        MythsASCII:     443 250
+        SimakASCII:     175 375
+        WodehouseASCII: 225 750
+
+    % of original size:
+        EarthASCII:     56 %
+        MysteryASCII:   57 %    
+        MythsASCII:     60 %
+        SimakASCII:     56 %
+        WodehouseASCII: 56 %
+
+    TOTAL % of original size: 57 %
+
+CONCLUSIONS:
+
+Collections 2 and 3 were far better at compressing the files than collection 1 (57 and 57 %
+reduction verses 103%). This is because the first collection is simply a dictionary of words,
+this means that the Huffman coding cannot be optimized for frequently used words, only frequently 
+used letters in the English language. The problem with this is that these frequencies are not representative
+of the written English language, so when the coding from collection 1 is applied to text files containing 
+written English instead of a list of words the coding fails to reduce the file size because the 
+training letter frequencies are much different than the test letter frequencies. The 2nd and 3rd Collections
+were extremely effective at compressing the files because the training text files given were written in
+standard English sentences, very closely resembling the files being compressed. In conclusion 
+to achieve optimal compression the files used to train the Huffman code should resemble the 
+files that are to be compressed as closely as possible.

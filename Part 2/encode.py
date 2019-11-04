@@ -1,23 +1,26 @@
 import code_builder
+import os
 
 # Function to encode the desiered .txt file with the generated Huffman code
-def write_encoded_file(code, txt_file, file_name):
-    new_file_name = file_name.replace(".txt", "_encoded.txt") 
-    encoded_file = open(new_file_name, "a")
-    txt_file = txt_file.read()
-    for char in txt_file:
-            encoded_file.write(code[char])
-    return new_file_name
-
+def write_encoded_file(code, txt_files, num_collection):
+    file_path = ".\\Collection " + num_collection + "\\Encoded"
+    print("the following files are encoded and saved in " + file_path)
+    for txt_file in txt_files:
+        new_file_name = txt_file['name'].replace(".txt", "_encoded.txt") 
+        encoded_file = open(file_path + "\\" + new_file_name, "a")
+        for line in txt_file['txt']:
+            for char in line:
+                encoded_file.write(code[char])
+        print(new_file_name)
+    print("\n")
 
 # Main function to run the encoding module
-def main():
-    code = code_builder.get_coding(False)
-    print("please type the full name of the file you want to encode. ex. test.txt")
-    txt_file_name = input() 
-    txt_file = open(txt_file_name, "r")
-    encoded_file_name = write_encoded_file(code, txt_file, txt_file_name)
-    print("The encoded file is called:\t" + encoded_file_name)
-
-if __name__== "__main__":
-  main()
+def main(num_collection):
+    data_path = ".\\Data 20191031" 
+    code = code_builder.get_coding(False, num_collection)
+    txt_files = []
+    for filename in os.listdir(data_path):
+        file_path = data_path + "\\" + filename
+        txt_files.append({'txt': open(file_path, "r"), 'name': filename})
+    write_encoded_file(code, txt_files, num_collection)
+    
