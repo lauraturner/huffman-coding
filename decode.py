@@ -9,7 +9,9 @@ def get_coding(file_name):
         code["".join(line[1][:-1])] = line[0]
     return code
 
-code_file_name = 'test.txt'
+
+
+code_file_name = 'code.txt'
 code = get_coding(code_file_name)
 text_file_name = "File2ASCII_encoded.txt"
 txt_file = open(text_file_name, "r")
