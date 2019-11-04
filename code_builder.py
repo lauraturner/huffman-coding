@@ -1,10 +1,11 @@
 from collections import OrderedDict
 import collections
 def write_code_file(code):
-    print(code)
     with open('test.txt', 'a') as the_file:
         for ltr in code.keys():
             ltr_code = code[ltr][ : : -1]
+            if ltr == '\n':
+                ltr = r"\n"
             the_file.write(ltr + '\t' + "".join(ltr_code) + '\n')
 
 def add_code(ltr1, ltr2, ltr_code):
@@ -26,7 +27,6 @@ def get_code(ltr_code, ltr_groups):
 
 def get_frequency(txt_file, asciiDict):
     for line in txt_file:
-        line = line.replace(" ", "")
         for char in line:
             asciiDict[char] += 1
     asciiDict = {x:y for x,y in asciiDict.items() if y!=0}
