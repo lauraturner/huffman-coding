@@ -26,6 +26,7 @@ def get_code(ltr_code, ltr_groups):
 
 def get_frequency(txt_file, asciiDict):
     for line in txt_file:
+        line = line.replace(" ", "")
         for char in line:
             asciiDict[char] += 1
     asciiDict = {x:y for x,y in asciiDict.items() if y!=0}
@@ -35,7 +36,7 @@ def get_frequency(txt_file, asciiDict):
 
 asciiDict = {chr(i): 0 for i in range(32, 127)}
 asciiDict['\n'] = 0
-txt_file = open("words1ASCII.txt", "r")
+txt_file = open("File1ASCII.txt", "r")
 ltr_frequency = get_frequency(txt_file, asciiDict)
 ltr_code = {x: [] for x in ltr_frequency.keys()}
 code = get_code(ltr_code, ltr_frequency)
